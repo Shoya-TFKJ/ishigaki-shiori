@@ -969,7 +969,13 @@ function loadDB() {
 }
 
 function persist() {
-    localStorage.setItem('ishigaki2026', JSON.stringify(DB));
+    // 写真データで容量が大きく、端末のストレージ上限を超えて失敗することがある。
+    // 失敗しても画面の表示（このセッション中のDB）は止めない。
+    try {
+        localStorage.setItem('ishigaki2026', JSON.stringify(DB));
+    } catch (e) {
+        console.warn('保存に失敗しました（ストレージ容量不足の可能性）', e);
+    }
 }
 
 // ============================================================
